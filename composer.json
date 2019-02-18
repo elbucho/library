@@ -1,0 +1,29 @@
+{
+  "name": "elbucho/library",
+  "description": "Library system for cataloging books and managing reservations",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Hinkson",
+      "email": "mjhinkson@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Elbucho\\Library\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Elbucho\\Library\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "behat/behat": ">=3.5",
+    "leanphp/behat-code-coverage": ">=3.4"
+  }
+}

@@ -1,0 +1,5 @@
+dsn:
+  host:   127.0.0.1
+  dbname: library_dev
+  user:   library
+  pass:   My cup runneth over

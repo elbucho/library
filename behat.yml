@@ -1,0 +1,36 @@
+default:
+  suites:
+    core_features:
+      paths:
+        - '%paths.base%/tests/features/core'
+      contexts:
+        - Elbucho\Library\Tests\Bootstrap\CoreContext
+    user_features:
+      paths:
+        - '%paths.base%/tests/features/user'
+      filters:
+        role: user
+      contexts:
+        - Elbucho\Library\Tests\Bootstrap\UserContext
+    admin_features:
+      paths:
+        - '%paths.base%/tests/features/admin'
+      filters:
+        role: admin
+      contexts:
+        - Elbucho\Library\Tests\Bootstrap\AdminContext
+  formatters:
+    pretty: true
+  extensions:
+    LeanPHP\Behat\CodeCoverage\Extension:
+      drivers:
+        - local
+      filter:
+        whitelist:
+          include:
+            directories:
+              src: ~
+      report:
+        format:   html
+        options:
+          target: tests/coverage
