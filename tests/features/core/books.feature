@@ -30,7 +30,7 @@ Background:
     | 2  | Fiction                |
     | 3  | Comedy                 |
   And I have these Books
-    | id | isbn          | publisher_id | publisher_year | pages | title                                         |
+    | id | isbn          | publisher_id | published_year | pages | title                                         |
     | 1  | 9780441003259 | 1            | 1996           | 366   | Good Omens                                    |
     | 2  | 9780345453747 | 2            | 2002           | 832   | The Ultimate Hitchhiker's Guide to the Galaxy |
   And I have these BookAuthors
@@ -48,7 +48,7 @@ Background:
 
 Scenario: Author, Publisher, Category, and Book do not exist in database
   When I request a new book with this data
-    | title                | authors        | publisher        | publisher_year | pages | isbn          | categories          |
+    | title                | authors        | publisher        | published_year | pages | isbn          | categories          |
     | The Third Chimpanzee | Diamond, Jared | Harper Perennial | 1993           | 407   | 9780060845506 | Nonfiction, Biology |
   Then I have 4 Authors records
   And an Author with FirstName "Jared" and LastName "Diamond" exists

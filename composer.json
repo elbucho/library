@@ -20,7 +20,12 @@
     }
   },
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "symfony/yaml": "*",
+    "elbucho/config": "*",
+    "elbucho/database": "*",
+    "respect/validation": "2.0.x-dev",
+    "pimple/pimple": "3.3.x-dev"
   },
   "require-dev": {
     "behat/behat": ">=3.5",
