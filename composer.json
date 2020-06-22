@@ -25,7 +25,9 @@
     "elbucho/config": "*",
     "elbucho/database": "*",
     "respect/validation": "2.0.x-dev",
-    "pimple/pimple": "3.3.x-dev"
+    "slim/slim": "4.x-dev",
+    "slim/psr7": "1.1.0",
+    "php-di/php-di": "*"
   },
   "require-dev": {
     "behat/behat": ">=3.5",
