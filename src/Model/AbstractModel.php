@@ -2,8 +2,9 @@
 
 namespace Elbucho\Library\Model;
 use Elbucho\Database\Database;
+use Elbucho\Library\Interfaces\CollectionInterface;
 use Elbucho\Library\Interfaces\ModelInterface;
-use Pimple\Container;
+use Psr\Container\ContainerInterface;
 use Respect\Validation\Exceptions\ComponentException;
 use Elbucho\Library\Traits\MagicTrait;
 use Elbucho\Library\Exceptions\InvalidKeyException;
@@ -17,7 +18,7 @@ abstract class AbstractModel implements ModelInterface
      * Container Object
      *
      * @access  protected
-     * @var     Container
+     * @var     ContainerInterface
      */
     protected $container;
 
@@ -57,10 +58,10 @@ abstract class AbstractModel implements ModelInterface
      * Class constructor
      *
      * @access  public
-     * @param   Container   $container
+     * @param   ContainerInterface  $container
      * @throws  \Exception
      */
-    public function __construct(Container $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->database = $container['database.object'];
@@ -69,6 +70,34 @@ abstract class AbstractModel implements ModelInterface
         $this->rules = $this->getRules();
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $return = [];
+
+        foreach ($this->data as $key => $value) {
+            if ($value instanceof ModelInterface or $value instanceof CollectionInterface) {
+                $return[$key] = $value->toArray();
+            } elseif ($value instanceof \DateTimeInterface) {
+                $return[$key] = $value->format('Y-m-d H:i:s');
+            } else {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJSON(): string
+    {
+        return json_encode($this->toArray());
     }
 
     /**

@@ -3,41 +3,55 @@
 namespace Elbucho\Library\Controller;
 use Elbucho\Library\Model\BookCollection;
 use Elbucho\Library\Model\BookModel;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class BookController extends AbstractController
 {
     /**
      * @inheritDoc
      */
-    public function get(array $args = []): Response
+    public function get(Request $request, Response $response, array $args = []): Response
     {
-        if ( ! empty($args['isbn'])) {
-            return new Response($this->getBookByISBN($args)->toJSON(), 200);
+        $params = $request->getQueryParams();
+
+        if ( ! empty($params['isbn'])) {
+            $book = $this->getBookByISBN($params);
+
+            if (is_null($book)) {
+                $response->getBody()->write(json_encode('Book Not Found'));
+                return $response->withStatus(404);
+            }
+
+            $response->getBody()->write($book->toJSON());
+            return $response->withStatus(200);
         }
 
-        if ( ! empty($args['title'])) {
-            return new Response($this->getBooksByTitle($args)->toJSON(), 200);
+        if ( ! empty($params['title'])) {
+            $response->getBody()->write($this->getBooksByTitle($params)->toJSON());
+            return $response->withStatus(200);
         }
 
-        if ( ! empty($args['author'])) {
-            return new Response($this->getBooksByAuthor($args)->toJSON(), 200);
+        if ( ! empty($params['author'])) {
+            $response->getBody()->write($this->getBooksByAuthor($params)->toJSON());
+            return $response->withStatus(200);
         }
 
-        if ( ! empty($args['categories'])) {
-            return new Response($this->getBooksByCategories($args)->toJSON(), 200);
+        if ( ! empty($params['categories'])) {
+            $response->getBody()->write($this->getBooksByCategories($params)->toJSON());
+            return $response->withStatus(200);
         }
 
-        return new Response('Invalid Request', 400);
+        return $response->withStatus(400, 'Invalid Request');
     }
 
     /**
      * @inheritDoc
      */
-    public function create(array $args = []): Response
+    public function create(Request $request, Response $response, array $args = []): Response
     {
-        if (empty($args['title'])) {
-            return new Response('Missing Title', 400);
+/*        if (empty($args['title'])) {
+            return $response->withStatus(400, 'Missing Title');
         }
 
         $bookData = [
@@ -50,55 +64,78 @@ class BookController extends AbstractController
         try {
             $bookModel = new BookModel($this->container);
         } catch (\Exception $e) {
-            return new Response('Internal Error', 500);
+            return $response->withStatus(500, 'Internal Error');
         }
 
         foreach (['publishedYear', 'isbn', 'pages'] as $optionalKey) {
             if ( ! empty($args[$optionalKey])) {
-                $bookData[$optionalKey] = $args[$optionalKey]
+                $bookData[$optionalKey] = $args[$optionalKey];
             }
         }
 
         $bookModel->populateModel($bookData);
         $bookModel->save();
 
-        return new Response(
-            $bookModel->toJSON(),
-            200
-        );
+        $response->getBody()->write($bookModel->toJSON()); */
+        return $response->withStatus(200);
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(array $args = []): Response
+    public function delete(Request $request, Response $response, array $args = []): Response
     {
-        if (empty($args['book_id'])) {
-            return new Response('Missing Book ID', 400);
+/*        if (empty($args['book_id'])) {
+            return $response->withStatus(400, 'Missing Book ID');
         }
 
         try {
             $bookModel = new BookModel($this->container);
             $bookModel = $bookModel->getById((int) $args['book_id']);
         } catch (\Exception $e) {
-            return new Response('Internal Error', 500);
+            return $response->withStatus(500, 'Internal Error');
         }
 
         if ( ! is_null($bookModel)) {
             $bookModel->delete();
-        }
+        } */
 
-        return new Response('Success', 200);
+        $response->getBody()->write(json_encode('Success'));
+        return $response->withStatus(200);
     }
 
     /**
      * @inheritDoc
      */
-    public function update(array $args = []): Response
+    public function update(Request $request, Response $response, array $args = []): Response
     {
         // TODO: Implement update() method.
 
-        return new Response('Success', 200);
+        $response->getBody()->write(json_encode('Success'));
+        return $response->withStatus(200);
+    }
+
+    /**
+     * Find all books based on a given title
+     *
+     * @access  private
+     * @param   array   $args
+     * @return  BookModel
+     */
+    private function getBookByISBN(array $args = []): ?BookModel
+    {
+/*        if (empty($args['isbn'])) {
+            return null;
+        }
+
+        try {
+            $bookModel = new BookModel($this->container);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $bookModel->findBookByISBN($args['isbn']); */
+        return null;
     }
 
     /**
@@ -110,9 +147,9 @@ class BookController extends AbstractController
      */
     private function getBooksByTitle(array $args = []): BookCollection
     {
-        if (empty($args['title'])) {
+//        if (empty($args['title'])) {
             return new BookCollection();
-        }
+/*        }
 
         try {
             $bookModel = new BookModel($this->container);
@@ -120,7 +157,7 @@ class BookController extends AbstractController
             return new BookCollection();
         }
 
-        return $bookModel->findBooksByTitle($args['title']);
+        return $bookModel->findBooksByTitle($args['title']); */
     }
 
     /**
@@ -132,9 +169,9 @@ class BookController extends AbstractController
      */
     private function getBooksByAuthor(array $args = []): BookCollection
     {
-        if (empty($args['author'])) {
+//        if (empty($args['author'])) {
             return new BookCollection();
-        }
+/*        }
 
         $firstName = (empty($args['author']['firstName']) ? '' : $args['author']['firstName']);
         $lastName = (empty($args['author']['lastName']) ? '' : $args['author']['lastName']);
@@ -145,7 +182,7 @@ class BookController extends AbstractController
             return new BookCollection();
         }
 
-        return $bookModel->findBooksByAuthor($lastName, $firstName);
+        return $bookModel->findBooksByAuthor($lastName, $firstName); */
     }
 
     /**
@@ -157,6 +194,16 @@ class BookController extends AbstractController
      */
     private function getBooksByCategories(array $args = []): BookCollection
     {
+//        if (empty($args['categories'])) {
+            return new BookCollection();
+/*        }
 
+        try {
+            $bookModel = new BookModel($this->container);
+        } catch (\Exception $e) {
+            return new BookCollection();
+        }
+
+        return $bookModel->findBooksByCategories($args['categories']); */
     }
 }

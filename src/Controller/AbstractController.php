@@ -1,10 +1,10 @@
 <?php
 
 namespace Elbucho\Library\Controller;
-use Pimple\Container;
+use Psr\Container\ContainerInterface;
 use Elbucho\Library\Interfaces\ControllerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 abstract class AbstractController implements ControllerInterface
 {
@@ -12,7 +12,7 @@ abstract class AbstractController implements ControllerInterface
      * Container
      *
      * @access  protected
-     * @var     Container
+     * @var     ContainerInterface
      */
     var $container;
 
@@ -20,10 +20,10 @@ abstract class AbstractController implements ControllerInterface
      * Class constructor
      *
      * @access  public
-     * @param   Container   $container
+     * @param   ContainerInterface  $container
      * @return  ControllerInterface
      */
-    public function __construct(Container $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
 
@@ -33,23 +33,21 @@ abstract class AbstractController implements ControllerInterface
     /**
      * @inheritDoc
      */
-    public function handle(array $args = []): Response
+    public function handle(Request $request, Response $response, array $args = []): Response
     {
-        /* @var Request $request */
-        $request = $this->container['http.request'];
-
         switch (strtolower($request->getMethod())) {
             case 'get':
-                return $this->get($args);
+                return $this->get($request, $response, $args);
             case 'post':
-                return $this->create($args);
+                return $this->create($request, $response, $args);
             case 'delete':
-                return $this->delete($args);
+                return $this->delete($request, $response, $args);
             case 'patch':
             case 'put':
-                return $this->update($args);
+            case 'update':
+                return $this->update($request, $response, $args);
             default:
-                return new Response('Invalid Request', 400);
+                return $response->withStatus(400, 'Invalid Request');
         }
     }
 }

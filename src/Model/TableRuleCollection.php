@@ -1,7 +1,6 @@
 <?php
 
 namespace Elbucho\Library\Model;
-
 use Elbucho\Library\Interfaces\ModelInterface;
 
 class TableRuleCollection extends AbstractCollection

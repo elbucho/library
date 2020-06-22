@@ -1,7 +1,8 @@
 <?php
 
 namespace Elbucho\Library\Interfaces;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 interface ControllerInterface
 {
@@ -9,44 +10,54 @@ interface ControllerInterface
      * Handler for the GET method
      *
      * @access  public
-     * @param   array   $args
+     * @param   Request     $request
+     * @param   Response    $response
+     * @param   array       $args
      * @return  Response
      */
-    public function get(array $args = []): Response;
+    public function get(Request $request, Response $response, array $args = []): Response;
 
     /**
      * Handler for the POST method
      *
      * @access  public
-     * @param   array   $args
+     * @param   Request     $request
+     * @param   Response    $response
+     * @param   array       $args
      * @return  Response
      */
-    public function create(array $args = []): Response;
+    public function create(Request $request, Response $response, array $args = []): Response;
 
     /**
      * Handler for the DELETE method
      *
      * @access  public
-     * @param   array   $args
+     * @param   Request     $request
+     * @param   Response    $response
+     * @param   array       $args
      * @return  Response
      */
-    public function delete(array $args = []): Response;
+    public function delete(Request $request, Response $response, array $args = []): Response;
 
     /**
      * Handler for the PUT / PATCH methods
      *
      * @access  public
-     * @param   array   $args
+     * @param   Request     $request
+     * @param   Response    $response
+     * @param   array       $args
      * @return  Response
      */
-    public function update(array $args = []): Response;
+    public function update(Request $request, Response $response, array $args = []): Response;
 
     /**
      * Default handler for a given request
      *
      * @access  public
-     * @param   array   $args
+     * @param   Request     $request
+     * @param   Response    $response
+     * @param   array       $args
      * @return  Response
      */
-    public function handle(array $args = []): Response;
+    public function handle(Request $request, Response $response, array $args = []): Response;
 }

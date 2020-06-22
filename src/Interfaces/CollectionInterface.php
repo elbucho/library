@@ -39,4 +39,22 @@ interface CollectionInterface extends \Iterator
      * @return  bool
      */
     public function keyExists(string $key): bool;
+
+    /**
+     * Return an array of all members of collection
+     *
+     * @access  public
+     * @param   void
+     * @return  array
+     */
+    public function toArray(): array;
+
+    /**
+     * Return a serialized string of all members of collection in JSON format
+     *
+     * @access  public
+     * @param   void
+     * @return  string
+     */
+    public function toJSON(): string;
 }

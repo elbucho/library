@@ -105,7 +105,7 @@ class TableRuleModel implements ModelInterface
             return $data->{'id'};
         }
 
-        if ($data instanceof \DateTime) {
+        if ($data instanceof \DateTimeInterface) {
             return $data->format('Y-m-d H:i:s');
         }
 
@@ -130,5 +130,31 @@ class TableRuleModel implements ModelInterface
     public function getIndexKey(): string
     {
         return $this->{'key'};
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $return = [];
+
+        foreach ($this->data as $key => $value) {
+            if (is_object($value)) {
+                $return[$key] = json_encode($value);
+            } else {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJSON(): string
+    {
+        return json_encode($this->toArray());
     }
 }

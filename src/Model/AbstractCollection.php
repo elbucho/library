@@ -58,6 +58,29 @@ abstract class AbstractCollection implements CollectionInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $return = [];
+
+        /* @var ModelInterface $model */
+        foreach ($this->models as $model) {
+            $return[] = $model->toArray();
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toJSON(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    /**
      * Validator for this model type
      *
      * @abstract

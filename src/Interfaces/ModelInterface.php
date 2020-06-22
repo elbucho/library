@@ -48,4 +48,22 @@ interface ModelInterface
      * @return  string
      */
     public function getIndexKey(): string;
+
+    /**
+     * Return the data for this model as an array
+     *
+     * @access  public
+     * @param   void
+     * @return  array
+     */
+    public function toArray(): array;
+
+    /**
+     * Return the data for this model as a JSON string
+     *
+     * @access  public
+     * @param   void
+     * @return  string
+     */
+    public function toJSON(): string;
 }
