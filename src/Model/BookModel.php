@@ -3,9 +3,16 @@
 namespace Elbucho\Library\Model;
 use Respect\Validation\Rules;
 
-
 class BookModel extends AbstractModel
 {
+    /**
+     * @inheritDoc
+     */
+    public function getIndexKey(): string
+    {
+        return strtolower($this->{'title'});
+    }
+
     /**
      * @inheritDoc
      */
@@ -34,8 +41,8 @@ class BookModel extends AbstractModel
                 ->setColumn('title')
                 ->setRequired()
                 ->setRules(new Rules\AllOf(
-                    new Rules\Alnum(),
-                    new Rules\Length(1, 255)
+                    new Rules\Alnum(':', '.', '\'', '\"', ' ', '_'),
+                    new Rules\Length(1, 255, true)
                 )),
             TableRuleModel::new()->setKey('isbn')
                 ->setColumn('isbn')
@@ -53,6 +60,14 @@ class BookModel extends AbstractModel
                 ->setRules(new Rules\AllOf(
                     new Rules\Number(),
                     new Rules\Min(1)
+                )),
+            TableRuleModel::new()->setKey('authors')
+                ->setRules(new Rules\AllOf(
+                    new Rules\Instance('Elbucho\\Library\\Model\\AuthorCollection')
+                )),
+            TableRuleModel::new()->setKey('categories')
+                ->setRules(new Rules\AllOf(
+                    new Rules\Instance('Elbucho\\Library\\Model\\CategoryCollection')
                 ))
         ]);
     }
@@ -63,22 +78,14 @@ class BookModel extends AbstractModel
     protected function joinForeignKeys(array $data = [])
     {
         $authorModel = new BookAuthorModel($this->container);
-        $authors = $authorModel->findByBookId((int) $this->{'id'});
-
-        if ( ! is_null($authors)) {
-            $this->{'authors'} = $authors;
-        }
+        $this->{'authors'} = $authorModel->findAuthorsByBookId((int) $this->{'id'});
 
         $categoryModel = new BookCategoryModel($this->container);
-        $categories = $categoryModel->findByBookId((int) $this->{'id'});
-
-        if ( ! is_null($categories)) {
-            $this->{'categories'} = $categories;
-        }
+        $this->{'categories'} = $categoryModel->findCategoriesByBookId((int) $this->{'id'});
 
         if ( ! empty($data['publisher_id'])) {
             $publisherModel = new PublisherModel($this->container);
-            $publisher = $publisherModel->findById((int) $data['publisher_id']);
+            $publisher = $publisherModel->getById((int) $data['publisher_id']);
 
             if ( ! is_null($publisher)) {
                 $this->{'publisher'} = $publisher;
@@ -92,6 +99,7 @@ class BookModel extends AbstractModel
      * @access  public
      * @param   string  $title
      * @return  BookModel
+     * @throws  \Exception
      */
     public function findByTitle(string $title): BookModel
     {
@@ -124,6 +132,7 @@ class BookModel extends AbstractModel
      * @access  public
      * @param   string  $isbn
      * @return  BookModel
+     * @throws  \Exception
      */
     public function findByISBN(string $isbn): BookModel
     {

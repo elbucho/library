@@ -47,7 +47,7 @@ Background:
     | 5  | 2       | 3           |
 
 Scenario: Author, Publisher, Category, and Book do not exist in database
-  When I request a new book with this data
+  When I create a new book with this data
     | title                | authors        | publisher        | published_year | pages | isbn          | categories          |
     | The Third Chimpanzee | Diamond, Jared | Harper Perennial | 1993           | 407   | 9780060845506 | Nonfiction, Biology |
   Then I have 4 Authors records

@@ -2,13 +2,14 @@
 
 namespace Elbucho\Library\Model;
 use Elbucho\Database\Database;
+use Elbucho\Library\Interfaces\ModelInterface;
 use Pimple\Container;
 use Respect\Validation\Exceptions\ComponentException;
 use Elbucho\Library\Traits\MagicTrait;
 use Elbucho\Library\Exceptions\InvalidKeyException;
 use Elbucho\Library\Exceptions\InvalidValueException;
 
-abstract class AbstractModel
+abstract class AbstractModel implements ModelInterface
 {
     use MagicTrait;
 
@@ -75,9 +76,10 @@ abstract class AbstractModel
      *
      * @access  public
      * @param   int     $id
-     * @return  AbstractModel
+     * @return  ModelInterface
+     * @throws  \Exception
      */
-    public function getById(int $id)
+    public function getById(int $id): ?ModelInterface
     {
         $query = sprintf('
             SELECT
@@ -115,16 +117,15 @@ abstract class AbstractModel
         $values = [];
 
         array_walk($this->data, function ($value, $key) use ($keys, $values) {
-            $rule = $this->rules->findByKey($key);
+            $rule = $this->rules->findModelByKey($key);
 
             if ( ! is_null($rule)) {
-                $keys[] = $rule->column;
+                $keys[] = $rule->{'column'};
                 $values[] = $rule->serialize($value);
             }
         });
 
-        $query = sprintf(
-    '
+        $query = sprintf('
             INSERT IGNORE INTO
                 %s (
                     %s
@@ -138,6 +139,8 @@ abstract class AbstractModel
             join(', ', $keys),
             join(', ', array_fill(0, count($keys), '?'))
         );
+
+        $this->database->exec($query, $values, $this->handle);
     }
 
     /**
@@ -149,7 +152,7 @@ abstract class AbstractModel
      */
     public function populateModel(array $data = [])
     {
-        if ( ! $this->rules->isValid($data)) {
+        if ( ! $this->rules->isDataValid($data)) {
             return;
         }
 
@@ -170,7 +173,7 @@ abstract class AbstractModel
      */
     public function __set(string $key, $value)
     {
-        $rule = $this->rules->findByKey($key);
+        $rule = $this->rules->findModelByKey($key);
 
         if (is_null($rule)) {
             throw new InvalidKeyException(sprintf(
@@ -217,6 +220,7 @@ abstract class AbstractModel
      * @access  protected
      * @param   array   $data
      * @return  void
+     * @throws  \Exception
      */
     protected abstract function joinForeignKeys(array $data = []);
 }

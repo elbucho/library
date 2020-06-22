@@ -1,41 +1,13 @@
 <?php
 
 namespace Elbucho\Library\Model;
+use Elbucho\Library\Interfaces\ModelInterface;
 use Respect\Validation\Rules\AllOf;
+use Elbucho\Library\Traits\MagicTrait;
 
-class TableRuleModel
+class TableRuleModel implements ModelInterface
 {
-    /**
-     * Key name
-     *
-     * @access  public
-     * @var   string
-     */
-    public $key;
-
-    /**
-     * Column name
-     *
-     * @access  public
-     * @var   string
-     */
-    public $column;
-
-    /**
-     * Validation Rules
-     *
-     * @access  public
-     * @var   AllOf
-     */
-    public $rules;
-
-    /**
-     * Required key
-     *
-     * @access  public
-     * @var   bool
-     */
-    public $isRequired = false;
+    use MagicTrait;
 
     /**
      * Constructor
@@ -73,7 +45,7 @@ class TableRuleModel
      */
     public function setKey(string $key): TableRuleModel
     {
-        $this->key = $key;
+        $this->{'key'} = $key;
 
         return $this;
     }
@@ -87,7 +59,7 @@ class TableRuleModel
      */
     public function setColumn(string $column): TableRuleModel
     {
-        $this->column = $column;
+        $this->{'column'} = $column;
 
         return $this;
     }
@@ -101,7 +73,7 @@ class TableRuleModel
      */
     public function setRequired(): TableRuleModel
     {
-        $this->isRequired = true;
+        $this->{'isRequired'} = true;
 
         return $this;
     }
@@ -115,7 +87,7 @@ class TableRuleModel
      */
     public function setRules(AllOf $rules): TableRuleModel
     {
-        $this->rules = $rules;
+        $this->{'rules'} = $rules;
 
         return $this;
     }
@@ -150,5 +122,13 @@ class TableRuleModel
         }
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIndexKey(): string
+    {
+        return $this->{'key'};
     }
 }

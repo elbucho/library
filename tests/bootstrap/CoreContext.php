@@ -72,14 +72,6 @@ class CoreContext implements Context
     }
 
     /**
-     * @When /^I request a new book with this data$/
-     */
-    public function iRequestANewBookWithThisData(TableNode $table)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then /^I have (?P<count>\d+) (?P<table>\w+) records$/
      */
     public function iHaveTableRecords($count, $table)
@@ -115,6 +107,14 @@ class CoreContext implements Context
      * @Then /^a Book with ISBN "([^"]*)" exists$/
      */
     public function aBookWithISBNExists($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When /^I create a new book with this data$/
+     */
+    public function iCreateANewBookWithThisData(TableNode $table)
     {
         throw new PendingException();
     }
