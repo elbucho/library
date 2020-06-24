@@ -20,6 +20,12 @@ $builder = new DI\ContainerBuilder();
 require_once('services.php');
 $container = $builder->build();
 
+// Insert the container into the Auth interface
+$container->get('auth')->setContainer($container);
+
+// Set the session handler
+session_set_save_handler($container->get('session'));
+
 // Bind the container to the application
 AppFactory::setContainer($container);
 $app = AppFactory::create();

@@ -28,9 +28,9 @@ $definitions += [
     'database'  => new Database($config->get('database')),
     '*Model'    => DI\create('Elbucho\Library\Model\*Model')
         ->constructor(DI\get('database')),
-    'auth'      => DI\factory(function (Container $container) {
-        return new \Elbucho\Library\Auth\AuthDatabase($container);
-    })
+    'auth'      => DI\create('Elbucho\Library\Auth\AuthDatabase'),
+    'session'   => DI\create('Elbucho\Library\Session\DatabaseSessionHandler')
+        ->constructor(DI\get('database'))
 ];
 
 $builder->addDefinitions($definitions);

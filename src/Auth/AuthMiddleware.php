@@ -6,6 +6,7 @@ use Elbucho\Library\Interfaces\AuthInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Routing\RouteContext;
 
 class AuthMiddleware extends Middleware
@@ -16,7 +17,18 @@ class AuthMiddleware extends Middleware
     ): ResponseInterface {
         /* @var AuthInterface $auth */
         $auth = $this->container->get('auth');
-
         $route = RouteContext::fromRequest($request);
+
+        if ($auth->check($route)) {
+            return $handler->handle($request);
+        }
+
+        $factory = new ResponseFactory();
+
+        return $factory->createResponse(401)
+            ->withHeader(
+                'WWW-Authenticate',
+                'Basic realm="Protected"'
+            );
     }
 }

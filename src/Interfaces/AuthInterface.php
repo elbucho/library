@@ -1,7 +1,7 @@
 <?php
 
 namespace Elbucho\Library\Interfaces;
-use Elbucho\Library\Interfaces\UserInterface;
+use Psr\Container\ContainerInterface;
 use Slim\Routing\RouteContext;
 
 interface AuthInterface
@@ -43,4 +43,22 @@ interface AuthInterface
      * @return  void
      */
     public function logout();
+
+    /**
+     * Register a new user
+     *
+     * @access  public
+     * @param   array   $data
+     * @return  bool
+     */
+    public function register(array $data = []): bool;
+
+    /**
+     * Load a ContainerInterface into this class
+     *
+     * @access  public
+     * @param   ContainerInterface  $container
+     * @return  void
+     */
+    public function loadContainer(ContainerInterface $container);
 }

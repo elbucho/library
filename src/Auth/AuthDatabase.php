@@ -1,7 +1,6 @@
 <?php
 
 namespace Elbucho\Library\Auth;
-use Elbucho\Database\Database;
 use Elbucho\Library\Interfaces\AuthInterface;
 use Elbucho\Library\Interfaces\UserInterface;
 use Psr\Container\ContainerInterface;
@@ -18,35 +17,12 @@ class AuthDatabase implements AuthInterface
     private $container;
 
     /**
-     * Database object
-     *
-     * @access  private
-     * @var     Database
-     */
-    private $database;
-
-    /**
      * Currently logged-in user
      *
      * @access  private
      * @var     UserInterface
      */
-    private $user;
-
-    /**
-     * Class Constructor
-     *
-     * @access  public
-     * @param   ContainerInterface  $container
-     * @return  AuthInterface
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-        $this->database = $container->get('database');
-
-        return $this;
-    }
+    private $user = null;
 
     /**
      * Check that the current user has the appropriate privileges to
@@ -96,11 +72,51 @@ class AuthDatabase implements AuthInterface
 
     public function login(string $key, string $password): bool
     {
-        // TODO: Implement login() method.
+        /* @var \Elbucho\Library\Model\UserModel $userModel */
+        $userModel = $this->container->get('UserModel');
+        $user = $userModel->findByKey($key);
+
+        if (is_null($user)) {
+            return false;
+        }
+
+        if (password_verify($password, $user->{'passwordHash'})) {
+            $this->user = $user;
+            $_SESSION['user'] = (int) $user->getIndexKey();
+
+            return true;
+        }
+
+        return false;
     }
 
     public function logout()
     {
-        // TODO: Implement logout() method.
+        $this->user = null;
+        session_destroy();
+    }
+
+    /**
+     * Load a ContainerInterface into this class
+     *
+     * @access  public
+     * @param   ContainerInterface  $container
+     * @return  void
+     */
+    public function loadContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * Register a new user
+     *
+     * @access  public
+     * @param array $data
+     * @return  bool
+     */
+    public function register(array $data = []): bool
+    {
+        // TODO: Implement register() method.
     }
 }

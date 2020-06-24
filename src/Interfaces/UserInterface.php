@@ -12,4 +12,13 @@ interface UserInterface
      * @return  mixed
      */
     public function getIndexKey();
+
+    /**
+     * Find the user based on a provided key
+     *
+     * @access  public
+     * @param   string  $key
+     * @return  UserInterface
+     */
+    public function findByKey(string $key): ?UserInterface;
 }
