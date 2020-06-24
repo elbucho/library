@@ -101,7 +101,7 @@ class BookModel extends AbstractModel
      * @return  BookModel
      * @throws  \Exception
      */
-    public function findByTitle(string $title): BookModel
+    public function findByTitle(string $title): ?BookModel
     {
         $query = sprintf('
             SELECT
@@ -113,7 +113,7 @@ class BookModel extends AbstractModel
         ', $this->tableName);
 
         $results = $this->database->query(
-            $query, array($title), $this->handle
+            $query, array($title)
         );
 
         if (empty($results[0])) {
@@ -134,7 +134,7 @@ class BookModel extends AbstractModel
      * @return  BookModel
      * @throws  \Exception
      */
-    public function findByISBN(string $isbn): BookModel
+    public function findByISBN(string $isbn): ?BookModel
     {
         $query = sprintf('
             SELECT
@@ -146,7 +146,7 @@ class BookModel extends AbstractModel
         ', $this->tableName);
 
         $results = $this->database->query(
-            $query, array($isbn), $this->handle
+            $query, array($isbn)
         );
 
         if (empty($results[0])) {

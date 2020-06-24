@@ -62,7 +62,7 @@ class BookController extends AbstractController
         ];
 
         try {
-            $bookModel = new BookModel($this->container);
+            $bookModel = $this->container->get('BookModel');
         } catch (\Exception $e) {
             return $response->withStatus(500, 'Internal Error');
         }

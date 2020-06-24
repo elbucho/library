@@ -4,7 +4,6 @@ namespace Elbucho\Library\Model;
 use Elbucho\Database\Database;
 use Elbucho\Library\Interfaces\CollectionInterface;
 use Elbucho\Library\Interfaces\ModelInterface;
-use Psr\Container\ContainerInterface;
 use Respect\Validation\Exceptions\ComponentException;
 use Elbucho\Library\Traits\MagicTrait;
 use Elbucho\Library\Exceptions\InvalidKeyException;
@@ -13,14 +12,6 @@ use Elbucho\Library\Exceptions\InvalidValueException;
 abstract class AbstractModel implements ModelInterface
 {
     use MagicTrait;
-
-    /**
-     * Container Object
-     *
-     * @access  protected
-     * @var     ContainerInterface
-     */
-    protected $container;
 
     /**
      * Database Object
@@ -47,25 +38,15 @@ abstract class AbstractModel implements ModelInterface
     protected $tableName;
 
     /**
-     * Database handle
-     *
-     * @access  protected
-     * @var     string
-     */
-    protected $handle;
-
-    /**
      * Class constructor
      *
      * @access  public
-     * @param   ContainerInterface  $container
+     * @param   Database    $database
      * @throws  \Exception
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(Database $database)
     {
-        $this->container = $container;
-        $this->database = $container['database.object'];
-        $this->handle = $container['database.handle'];
+        $this->database = $database;
         $this->tableName = $this->getTableName();
         $this->rules = $this->getRules();
 
@@ -120,7 +101,7 @@ abstract class AbstractModel implements ModelInterface
         ', $this->tableName);
 
         $results = $this->database->query(
-            $query, array($id), $this->handle
+            $query, array($id)
         );
 
         if (empty($results[0])) {
@@ -169,7 +150,7 @@ abstract class AbstractModel implements ModelInterface
             join(', ', array_fill(0, count($keys), '?'))
         );
 
-        $this->database->exec($query, $values, $this->handle);
+        $this->database->exec($query, $values);
     }
 
     /**

@@ -79,7 +79,7 @@ class BookAuthorModel extends AbstractModel
         ');
 
         $results = $this->database->query(
-            $query, array($authorId), $this->handle
+            $query, array($authorId)
         );
 
         $return = new BookCollection();
@@ -117,7 +117,7 @@ class BookAuthorModel extends AbstractModel
         ');
 
         $results = $this->database->query(
-            $query, array($bookId), $this->handle
+            $query, array($bookId)
         );
 
         $return = new AuthorCollection();

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d04070a8f4c09c222d2af6865242b48",
+    "content-hash": "bb91967c610cc53d7827522f40bdf7cd",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -168,12 +168,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elbucho/database.git",
-                "reference": "ef27a7ebdf49d5737acd3ce9f5b2a32cc6df5ac1"
+                "reference": "6c1033c6e41b504d90677949ed77fd41fe37a02d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elbucho/database/zipball/ef27a7ebdf49d5737acd3ce9f5b2a32cc6df5ac1",
-                "reference": "ef27a7ebdf49d5737acd3ce9f5b2a32cc6df5ac1",
+                "url": "https://api.github.com/repos/elbucho/database/zipball/6c1033c6e41b504d90677949ed77fd41fe37a02d",
+                "reference": "6c1033c6e41b504d90677949ed77fd41fe37a02d",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 "database",
                 "pdo"
             ],
-            "time": "2020-06-20T15:37:11+00:00"
+            "time": "2020-06-23T23:27:33+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -4186,13 +4186,16 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "elbucho/config": 20,
+        "elbucho/database": 20,
         "respect/validation": 20,
         "slim/slim": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

@@ -79,7 +79,7 @@ class BookCategoryModel extends AbstractModel
         ');
 
         $results = $this->database->query(
-            $query, array($bookId), $this->handle
+            $query, array($bookId)
         );
 
         $return = new CategoryCollection();
