@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__DIR__) . "/src/framework/bootstrap.php");
+require_once(dirname(__DIR__) . '/src/Framework/bootstrap.php');
 
 try {
     require_once(FRAMEWORK_DIR . '/routes.php');

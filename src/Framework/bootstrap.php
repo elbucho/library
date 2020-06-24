@@ -20,8 +20,6 @@ $builder = new DI\ContainerBuilder();
 require_once('services.php');
 $container = $builder->build();
 
-var_dump($container->make('Elbucho\Library\Model\BookModel'));die;
-
 // Bind the container to the application
 AppFactory::setContainer($container);
 $app = AppFactory::create();

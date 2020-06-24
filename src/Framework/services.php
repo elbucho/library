@@ -27,9 +27,12 @@ $definitions += [
     'config'    => $config,
     'database'  => new Database($config->get('database')),
     '*Model'    => DI\create('Elbucho\Library\Model\*Model')
-        ->constructor(DI\get('database'))
+        ->constructor(DI\get('database')),
+    'auth'      => DI\factory(function (Container $container) {
+        return new \Elbucho\Library\Auth\AuthDatabase($container);
+    })
 ];
 
 $builder->addDefinitions($definitions);
 $builder->useAnnotations($config->get('container.builder.annotations', false));
-$builder->useAutowiring($config->get('container.builder.autowiring', false));
+$builder->useAutowiring($config->get('container.builder.autowiring', true));
