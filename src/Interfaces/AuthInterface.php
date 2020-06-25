@@ -11,10 +11,10 @@ interface AuthInterface
      * access the given route
      *
      * @access  public
-     * @param   RouteContext    $currentRoute
+     * @param   void
      * @return  bool
      */
-    public function check(RouteContext $currentRoute): bool;
+    public function check(): bool;
 
     /**
      * Return the currently logged-in user

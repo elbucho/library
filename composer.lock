@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb91967c610cc53d7827522f40bdf7cd",
+    "content-hash": "abdde298c2ac160a6f93253fb269ba88",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -168,12 +168,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elbucho/database.git",
-                "reference": "6c1033c6e41b504d90677949ed77fd41fe37a02d"
+                "reference": "015dfae31c13fa34b4c4d5b4c31259b629ba1e3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elbucho/database/zipball/6c1033c6e41b504d90677949ed77fd41fe37a02d",
-                "reference": "6c1033c6e41b504d90677949ed77fd41fe37a02d",
+                "url": "https://api.github.com/repos/elbucho/database/zipball/015dfae31c13fa34b4c4d5b4c31259b629ba1e3a",
+                "reference": "015dfae31c13fa34b4c4d5b4c31259b629ba1e3a",
                 "shasum": ""
             },
             "require": {
@@ -191,7 +191,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -214,7 +214,7 @@
                 "database",
                 "pdo"
             ],
-            "time": "2020-06-23T23:27:33+00:00"
+            "time": "2020-06-25T18:12:58+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -1497,12 +1497,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "9720591bdfbea028a0624e15f6b877e0630d515f"
+                "reference": "2b456ee01d34478ea14e8d695f9475a99af1f557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/9720591bdfbea028a0624e15f6b877e0630d515f",
-                "reference": "9720591bdfbea028a0624e15f6b877e0630d515f",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/2b456ee01d34478ea14e8d695f9475a99af1f557",
+                "reference": "2b456ee01d34478ea14e8d695f9475a99af1f557",
                 "shasum": ""
             },
             "require": {
@@ -1569,7 +1569,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2020-06-18T13:54:13+00:00"
+            "time": "2020-06-24T11:53:18+00:00"
         },
         {
             "name": "behat/gherkin",
@@ -2590,12 +2590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "a3660e1c74be6d5a02b884f57e80a4e440a705ef"
+                "reference": "fb66fad45b5f3647b948417ae5ab3b992ede76bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/a3660e1c74be6d5a02b884f57e80a4e440a705ef",
-                "reference": "a3660e1c74be6d5a02b884f57e80a4e440a705ef",
+                "url": "https://api.github.com/repos/symfony/console/zipball/fb66fad45b5f3647b948417ae5ab3b992ede76bc",
+                "reference": "fb66fad45b5f3647b948417ae5ab3b992ede76bc",
                 "shasum": ""
             },
             "require": {
@@ -2673,7 +2673,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-15T12:37:55+00:00"
+            "time": "2020-06-24T13:34:53+00:00"
         },
         {
             "name": "symfony/debug",
@@ -3181,12 +3181,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "3adfbd7098c850b02d107330b7b9deacf2581578"
+                "reference": "cb769fd5966af19fdf0612fbbfab4f67d491ea51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/3adfbd7098c850b02d107330b7b9deacf2581578",
-                "reference": "3adfbd7098c850b02d107330b7b9deacf2581578",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/cb769fd5966af19fdf0612fbbfab4f67d491ea51",
+                "reference": "cb769fd5966af19fdf0612fbbfab4f67d491ea51",
                 "shasum": ""
             },
             "require": {
@@ -3242,7 +3242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-23T09:11:46+00:00"
+            "time": "2020-06-24T13:34:53+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -3355,12 +3355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "467fec4463a45c35f52b88afcf4483eaef090a38"
+                "reference": "83fa1b2207514a0f32a859755f47ad51a16b04dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/467fec4463a45c35f52b88afcf4483eaef090a38",
-                "reference": "467fec4463a45c35f52b88afcf4483eaef090a38",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/83fa1b2207514a0f32a859755f47ad51a16b04dc",
+                "reference": "83fa1b2207514a0f32a859755f47ad51a16b04dc",
                 "shasum": ""
             },
             "require": {
@@ -3425,7 +3425,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-10T10:27:43+00:00"
+            "time": "2020-06-24T15:21:47+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -3983,12 +3983,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "5f7653c03fe5599d09968eb76aae51f87a6167de"
+                "reference": "d31db9a7f04d42359d3571a175feb3fc8078a911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/5f7653c03fe5599d09968eb76aae51f87a6167de",
-                "reference": "5f7653c03fe5599d09968eb76aae51f87a6167de",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/d31db9a7f04d42359d3571a175feb3fc8078a911",
+                "reference": "d31db9a7f04d42359d3571a175feb3fc8078a911",
                 "shasum": ""
             },
             "require": {
@@ -4065,7 +4065,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-18T19:55:03+00:00"
+            "time": "2020-06-24T13:36:31+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -4195,7 +4195,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.1",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

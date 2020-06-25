@@ -29,11 +29,11 @@ class AuthDatabase implements AuthInterface
      * access the given route
      *
      * @access  public
-     * @param   RouteContext    $currentRoute
+     * @param   void
      * @return  bool
      * @throws  \Exception
      */
-    public function check(RouteContext $currentRoute): bool
+    public function check(): bool
     {
         $userId = (isset($_SESSION['user']) ? $_SESSION['user'] : null);
 

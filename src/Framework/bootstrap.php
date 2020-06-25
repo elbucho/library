@@ -21,11 +21,14 @@ require_once('services.php');
 $container = $builder->build();
 
 // Insert the container into the Auth interface
-$container->get('auth')->setContainer($container);
-
-// Set the session handler
-session_set_save_handler($container->get('session'));
+$container->get('auth')->loadContainer($container);
 
 // Bind the container to the application
 AppFactory::setContainer($container);
 $app = AppFactory::create();
+
+// Set the session handler
+session_set_save_handler($container->get('session'));
+ini_set('session.hash_function', 1);
+ini_set('session.hash_bits_per_character', 5);
+session_start();

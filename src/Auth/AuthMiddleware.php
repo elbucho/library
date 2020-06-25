@@ -17,18 +17,16 @@ class AuthMiddleware extends Middleware
     ): ResponseInterface {
         /* @var AuthInterface $auth */
         $auth = $this->container->get('auth');
-        $route = RouteContext::fromRequest($request);
+//        $route = RouteContext::fromRequest($request);
 
-        if ($auth->check($route)) {
+        if ($auth->check()) {
             return $handler->handle($request);
         }
 
         $factory = new ResponseFactory();
+        $response = $factory->createResponse(401);
+        $response->getBody()->write(json_encode('Access Denied'));
 
-        return $factory->createResponse(401)
-            ->withHeader(
-                'WWW-Authenticate',
-                'Basic realm="Protected"'
-            );
+        return $response;
     }
 }

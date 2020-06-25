@@ -3,7 +3,6 @@
 use Elbucho\Config\Loader\DirectoryLoader;
 use Elbucho\Config\Config;
 use Elbucho\Database\Database;
-use DI\Container;
 
 // Build the Config class to have the correct environment
 $environmentPath = CONFIG_DIR . '/environment/' . ENVIRONMENT;
@@ -18,6 +17,9 @@ if (is_dir($environmentPath)) {
     );
 }
 
+$database = new Database($config->get('database'));
+$database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
 $definitions = $config->get(
     'container.definitions',
     new Config(array())
@@ -25,7 +27,7 @@ $definitions = $config->get(
 
 $definitions += [
     'config'    => $config,
-    'database'  => new Database($config->get('database')),
+    'database'  => $database,
     '*Model'    => DI\create('Elbucho\Library\Model\*Model')
         ->constructor(DI\get('database')),
     'auth'      => DI\create('Elbucho\Library\Auth\AuthDatabase'),

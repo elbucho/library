@@ -101,7 +101,7 @@ class TableRuleModel implements ModelInterface
      */
     public function serialize($data): string
     {
-        if ($data instanceof AbstractModel) {
+        if ($data instanceof ModelInterface) {
             return $data->{'id'};
         }
 

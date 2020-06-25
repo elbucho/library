@@ -129,14 +129,14 @@ class DatabaseSessionHandler implements \SessionHandlerInterface
             FROM
                 sessions
             WHERE
-                key = ?
+                `key` = ?
         ', array($session_id));
 
         if (empty($return[0])) {
             return '';
         }
 
-        return base64_decode($return[0]);
+        return base64_decode($return[0]['data']);
     }
 
     /**
@@ -160,11 +160,16 @@ class DatabaseSessionHandler implements \SessionHandlerInterface
     {
         $now = new \DateTimeImmutable('now');
 
+        $this->database->setAttribute(
+            \PDO::ATTR_ERRMODE,
+            \PDO::ERRMODE_EXCEPTION
+        );
+
         $this->database->exec('
             REPLACE INTO
                 sessions (
-                    key,
-                    data,
+                    `key`,
+                    `data`,
                     last_accessed_at
                 )        
             VALUES

@@ -2,7 +2,6 @@
 
 namespace Elbucho\Library\Controller;
 use Elbucho\Library\Model\BookCollection;
-use Elbucho\Library\Model\BookModel;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -16,7 +15,7 @@ class BookController extends AbstractController
         $params = $request->getQueryParams();
 
         if ( ! empty($params['isbn'])) {
-            $book = $this->getBookByISBN($params);
+            $book = $this->container->get('BookModel')->findByISBN($params['isbn']);
 
             if (is_null($book)) {
                 $response->getBody()->write(json_encode('Book Not Found'));
@@ -113,29 +112,6 @@ class BookController extends AbstractController
 
         $response->getBody()->write(json_encode('Success'));
         return $response->withStatus(200);
-    }
-
-    /**
-     * Find all books based on a given title
-     *
-     * @access  private
-     * @param   array   $args
-     * @return  BookModel
-     */
-    private function getBookByISBN(array $args = []): ?BookModel
-    {
-/*        if (empty($args['isbn'])) {
-            return null;
-        }
-
-        try {
-            $bookModel = new BookModel($this->container);
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return $bookModel->findBookByISBN($args['isbn']); */
-        return null;
     }
 
     /**
