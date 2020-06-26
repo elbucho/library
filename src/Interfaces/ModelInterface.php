@@ -66,4 +66,13 @@ interface ModelInterface
      * @return  string
      */
     public function toJSON(): string;
+
+    /**
+     * Determine whether this model is valid
+     *
+     * @access  public
+     * @param   void
+     * @return  bool
+     */
+    public function isValid(): bool;
 }

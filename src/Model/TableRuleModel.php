@@ -19,6 +19,7 @@ class TableRuleModel implements ModelInterface
     public function __construct()
     {
         $this->setRules(new AllOf());
+        $this->{'isRequired'} = false;
 
         return $this;
     }
@@ -156,5 +157,17 @@ class TableRuleModel implements ModelInterface
     public function toJSON(): string
     {
         return json_encode($this->toArray());
+    }
+
+    /**
+     * Determine whether this model is valid
+     *
+     * @access  public
+     * @param   void
+     * @return  bool
+     */
+    public function isValid(): bool
+    {
+        return true;
     }
 }

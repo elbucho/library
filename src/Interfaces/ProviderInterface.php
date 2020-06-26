@@ -1,6 +1,7 @@
 <?php
 
 namespace Elbucho\Library\Interfaces;
+use Elbucho\Library\Model\AbstractModel;
 
 interface ProviderInterface
 {
@@ -18,10 +19,10 @@ interface ProviderInterface
      * Save a model
      *
      * @access  public
-     * @param   ModelInterface  $model
+     * @param   AbstractModel   $model
      * @return  void
      */
-    public function save(ModelInterface $model);
+    public function save(AbstractModel $model);
 
     /**
      * Hydrate a model with an array of data

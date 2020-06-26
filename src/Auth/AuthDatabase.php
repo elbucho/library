@@ -1,10 +1,14 @@
 <?php
 
 namespace Elbucho\Library\Auth;
+use Elbucho\Database\InvalidConfigException;
+use Elbucho\Library\Exceptions\EmailExistsException;
+use Elbucho\Library\Exceptions\InvalidEmailException;
+use Elbucho\Library\Exceptions\UsernameExistsException;
 use Elbucho\Library\Interfaces\AuthInterface;
-use Elbucho\Library\Interfaces\UserInterface;
+use Elbucho\Library\Model\UserModel;
+use Elbucho\Library\Model\UserProvider;
 use Psr\Container\ContainerInterface;
-use Slim\Routing\RouteContext;
 
 class AuthDatabase implements AuthInterface
 {
@@ -20,7 +24,7 @@ class AuthDatabase implements AuthInterface
      * Currently logged-in user
      *
      * @access  private
-     * @var     UserInterface
+     * @var     UserModel
      */
     private $user = null;
 
@@ -42,7 +46,7 @@ class AuthDatabase implements AuthInterface
         }
 
         if (isset($this->user)) {
-            if ((int) $userId !== (int) $this->user->getIndexKey()) {
+            if ((int) $userId !== (int) $this->user->{'id'}) {
                 $this->logout();
 
                 return false;
@@ -51,9 +55,9 @@ class AuthDatabase implements AuthInterface
             return true;
         }
 
-        /* @var \Elbucho\Library\Model\UserModel $userModel */
-        $userModel = $this->container->get('UserModel');
-        $this->user = $userModel->getById($userId);
+        /* @var UserProvider $userProvider */
+        $userProvider = $this->container->get('UserProvider');
+        $this->user = $userProvider->findById($userId);
 
         return ! is_null($this->user);
     }
@@ -63,18 +67,18 @@ class AuthDatabase implements AuthInterface
      *
      * @access  public
      * @param   void
-     * @return  UserInterface
+     * @return  UserModel
      */
-    public function getUser(): ?UserInterface
+    public function getUser(): ?UserModel
     {
         return $this->user;
     }
 
     public function login(string $key, string $password): bool
     {
-        /* @var \Elbucho\Library\Model\UserModel $userModel */
-        $userModel = $this->container->get('UserModel');
-        $user = $userModel->findByKey($key);
+        /* @var UserProvider $userProvider */
+        $userProvider = $this->container->get('UserProvider');
+        $user = $userProvider->findByKey($key);
 
         if (is_null($user)) {
             return false;
@@ -82,7 +86,7 @@ class AuthDatabase implements AuthInterface
 
         if (password_verify($password, $user->{'passwordHash'})) {
             $this->user = $user;
-            $_SESSION['user'] = (int) $user->getIndexKey();
+            $_SESSION['user'] = (int) $user->{'id'};
 
             return true;
         }
@@ -112,11 +116,22 @@ class AuthDatabase implements AuthInterface
      * Register a new user
      *
      * @access  public
-     * @param array $data
+     * @param   string  $username
+     * @param   string  $email
+     * @param   string  $password
      * @return  bool
+     * @throws  UsernameExistsException
+     * @throws  EmailExistsException
+     * @throws  InvalidEmailException
+     * @throws  InvalidConfigException
+     * @throws  \Exception
      */
-    public function register(array $data = []): bool
+    public function register(string $username, string $email, string $password): bool
     {
-        // TODO: Implement register() method.
+        /* @var UserProvider $userProvider */
+        $userProvider = $this->container->get('UserProvider');
+        $userModel = $userProvider->create($username, $email, $password);
+
+        return ! is_null($userModel);
     }
 }

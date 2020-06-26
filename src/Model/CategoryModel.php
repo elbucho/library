@@ -1,20 +1,18 @@
 <?php
 
 namespace Elbucho\Library\Model;
+use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Rules;
 
 class CategoryModel extends AbstractModel
 {
     /**
-     * @inheritDoc
-     */
-    protected function getTableName(): string
-    {
-        return 'categories';
-    }
-
-    /**
-     * @inheritDoc
+     * Set the table's rules
+     *
+     * @access  protected
+     * @param   void
+     * @return  TableRuleCollection
+     * @throws  ComponentException
      */
     protected function getRules(): TableRuleCollection
     {
@@ -34,15 +32,11 @@ class CategoryModel extends AbstractModel
     }
 
     /**
-     * @inheritDoc
-     */
-    protected function joinForeignKeys(array $data = [])
-    {
-        return;
-    }
-
-    /**
-     * @inheritDoc
+     * Return the index key for this model
+     *
+     * @access  public
+     * @param   void
+     * @return  string
      */
     public function getIndexKey(): string
     {

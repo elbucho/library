@@ -4,7 +4,6 @@ namespace Elbucho\Library\Model;
 use Elbucho\Database\Database;
 use Elbucho\Library\Interfaces\ModelInterface;
 use Elbucho\Library\Interfaces\ProviderInterface;
-use Respect\Validation\Exceptions\ComponentException;
 
 abstract class AbstractProvider implements ProviderInterface
 {
@@ -15,14 +14,6 @@ abstract class AbstractProvider implements ProviderInterface
      * @var     Database
      */
     protected $database;
-
-    /**
-     * Table rules
-     *
-     * @access  protected
-     * @var     TableRuleCollection
-     */
-    protected $rules;
 
     /**
      * Table name
@@ -43,7 +34,6 @@ abstract class AbstractProvider implements ProviderInterface
     {
         $this->database = $database;
         $this->tableName = $this->getTableName();
-        $this->rules = $this->getRules();
 
         return $this;
     }
@@ -88,10 +78,10 @@ abstract class AbstractProvider implements ProviderInterface
      * Save a model
      *
      * @access  public
-     * @param   ModelInterface  $model
+     * @param   AbstractModel   $model
      * @return  void
      */
-    public function save(ModelInterface $model)
+    public function save(AbstractModel $model)
     {
         if ( ! isset($model->{'id'})) {
             $this->create($model);
@@ -107,7 +97,7 @@ abstract class AbstractProvider implements ProviderInterface
                 continue;
             }
 
-            $rule = $this->rules->findModelByKey($key);
+            $rule = $model->rules->findModelByKey($key);
 
             if ( ! $rule instanceof TableRuleModel or ! isset($rule->{'column'})) {
                 continue;
@@ -141,26 +131,22 @@ abstract class AbstractProvider implements ProviderInterface
      */
     public function load(array $data = []): ?ModelInterface
     {
-        if ( ! $this->rules->isDataValid($data)) {
+        if (empty($data)) {
             return null;
         }
 
-        $filtered = array_filter($data, function ($key) {
-            return $this->rules->keyExists($key);
-        });
-
         $modelClass = $this->getClassName();
-        return new $modelClass($filtered);
+        return new $modelClass($data);
     }
 
     /**
      * Insert a new record into the database with the provided info
      *
      * @access  private
-     * @param   ModelInterface  $model
+     * @param   AbstractModel   $model
      * @return  void
      */
-    private function create(ModelInterface $model)
+    private function create(AbstractModel $model)
     {
         $columns = [];
         $values = [];
@@ -170,7 +156,7 @@ abstract class AbstractProvider implements ProviderInterface
                 continue;
             }
 
-            $rule = $this->rules->findModelByKey($key);
+            $rule = $model->rules->findModelByKey($key);
 
             if ( ! $rule instanceof TableRuleModel or ! isset($rule->{'column'})) {
                 continue;
@@ -197,6 +183,7 @@ abstract class AbstractProvider implements ProviderInterface
         ', $this->getTableName(), implode(', ', $columns), $valueString);
 
         $this->database->exec($query, $values);
+        $model->{'id'} = (int) $this->database->getLastInsertId();
     }
 
     /**
@@ -208,17 +195,6 @@ abstract class AbstractProvider implements ProviderInterface
      * @return  string
      */
     protected abstract function getTableName(): string;
-
-    /**
-     * Set the table's rules
-     *
-     * @abstract
-     * @access  protected
-     * @param   void
-     * @return  TableRuleCollection
-     * @throws  ComponentException
-     */
-    protected abstract function getRules(): TableRuleCollection;
 
     /**
      * Pull any associated records in for this model

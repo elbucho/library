@@ -2,7 +2,7 @@
 
 namespace Elbucho\Library\Interfaces;
 use Psr\Container\ContainerInterface;
-use Slim\Routing\RouteContext;
+use Elbucho\Library\Model\UserModel;
 
 interface AuthInterface
 {
@@ -21,9 +21,9 @@ interface AuthInterface
      *
      * @access  public
      * @param   void
-     * @return  UserInterface
+     * @return  UserModel
      */
-    public function getUser(): ?UserInterface;
+    public function getUser(): ?UserModel;
 
     /**
      * Authenticate a user with a given password
@@ -48,10 +48,12 @@ interface AuthInterface
      * Register a new user
      *
      * @access  public
-     * @param   array   $data
+     * @param   string  $username
+     * @param   string  $email
+     * @param   string  $password
      * @return  bool
      */
-    public function register(array $data = []): bool;
+    public function register(string $username, string $email, string $password): bool;
 
     /**
      * Load a ContainerInterface into this class

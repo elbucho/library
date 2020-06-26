@@ -4,6 +4,7 @@ namespace Elbucho\Library\Controller;
 
 use Elbucho\Library\Model\AuthorCollection;
 use Elbucho\Library\Model\CategoryCollection;
+use Elbucho\Library\Model\UserBookModel;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -27,7 +28,7 @@ class LibraryController extends AbstractController
         }, ARRAY_FILTER_USE_KEY);
 
         $userModel = $this->container->get('auth')->getUser();
-        $books = $this->container->get('BookModel')->findByUserId(
+        $books = $this->container->get('BookProvider')->findByUserId(
             $userModel->{'id'},
             $filters
         );
@@ -98,10 +99,12 @@ class LibraryController extends AbstractController
         $userModel = $this->container->get('auth')->getUser();
 
         try {
-            $userBookModel = $this->container->get('UserBookModel');
-            $userBookModel->{'bookId'} = $bookId;
-            $userBookModel->{'userId'} = $userModel->{'id'};
-            $userBookModel->save();
+            $userBookModel = new UserBookModel([
+                'bookId'    => $bookId,
+                'userId'    => $userModel->{'id'}
+            ]);
+
+            $this->container->get('UserBookProvider')->save($userBookModel);
 
             $response->getBody()->write(json_encode('Success'));
             return $response->withStatus(200);

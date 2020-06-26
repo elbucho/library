@@ -2,8 +2,6 @@
 
 namespace Elbucho\Library\Model;
 use Elbucho\Library\Interfaces\ModelInterface;
-use Respect\Validation\Exceptions\ComponentException;
-use Respect\Validation\Rules;
 
 class BookCategoryProvider extends AbstractProvider
 {
@@ -17,37 +15,6 @@ class BookCategoryProvider extends AbstractProvider
     protected function getTableName(): string
     {
         return 'book_categories';
-    }
-
-    /**
-     * Set the table's rules
-     *
-     * @access  protected
-     * @param   void
-     * @return  TableRuleCollection
-     * @throws  ComponentException
-     */
-    protected function getRules(): TableRuleCollection
-    {
-        return new TableRuleCollection([
-            TableRuleModel::new()->setKey('id')
-                ->setColumn('id')
-                ->setRules(new Rules\AllOf(
-                    new Rules\Number()
-                )),
-            TableRuleModel::new()->setKey('categoryId')
-                ->setColumn('category_id')
-                ->setRequired()
-                ->setRules(new Rules\AllOf(
-                    new Rules\Number()
-                )),
-            TableRuleModel::new()->setKey('bookId')
-                ->setColumn('book_id')
-                ->setRequired()
-                ->setRules(new Rules\AllOf(
-                    new Rules\Number()
-                ))
-        ]);
     }
 
     /**

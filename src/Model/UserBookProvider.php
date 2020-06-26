@@ -3,26 +3,26 @@
 namespace Elbucho\Library\Model;
 use Elbucho\Library\Interfaces\ModelInterface;
 
-class CategoryProvider extends AbstractProvider
+class UserBookProvider extends AbstractProvider
 {
     /**
      * Abstract method for returning table name
      *
      * @access  protected
-     * @param   void
+     * @param void
      * @return  string
      */
     protected function getTableName(): string
     {
-        return 'categories';
+        return 'user_books';
     }
 
     /**
      * Pull any associated records in for this model
      *
      * @access  protected
-     * @param   ModelInterface  $model
-     * @param   array           $args
+     * @param ModelInterface $model
+     * @param array $args
      * @return  void
      * @throws  \Exception
      */
@@ -40,6 +40,6 @@ class CategoryProvider extends AbstractProvider
      */
     protected function getClassName(): string
     {
-        return CategoryModel::class;
+        return UserBookModel::class;
     }
 }

@@ -25,14 +25,18 @@ $definitions = $config->get(
     new Config(array())
 )->toArray();
 
+$userProvider = new \Elbucho\Library\Model\UserProvider($database);
+$userProvider->setConfig($config);
+
 $definitions += [
     'config'    => $config,
     'database'  => $database,
-    '*Model'    => DI\create('Elbucho\Library\Model\*Model')
+    '*Provider'    => DI\create('Elbucho\Library\Model\*Provider')
         ->constructor(DI\get('database')),
     'auth'      => DI\create('Elbucho\Library\Auth\AuthDatabase'),
     'session'   => DI\create('Elbucho\Library\Session\DatabaseSessionHandler')
-        ->constructor(DI\get('database'))
+        ->constructor(DI\get('database')),
+    'UserProvider'  => $userProvider
 ];
 
 $builder->addDefinitions($definitions);

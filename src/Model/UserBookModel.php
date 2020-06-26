@@ -4,8 +4,9 @@ namespace Elbucho\Library\Model;
 use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Rules;
 
-class UserModel extends AbstractModel
+class UserBookModel extends AbstractModel
 {
+
     /**
      * Set the table's rules
      *
@@ -19,30 +20,20 @@ class UserModel extends AbstractModel
         return new TableRuleCollection([
             TableRuleModel::new()->setKey('id')
                 ->setColumn('id')
+                ->setRules(new Rules\AllOf(
+                    new Rules\Number()
+                )),
+            TableRuleModel::new()->setKey('userId')
+                ->setColumn('user_id')
                 ->setRequired()
                 ->setRules(new Rules\AllOf(
                     new Rules\Number()
                 )),
-            TableRuleModel::new()->setKey('username')
-                ->setColumn('name')
+            TableRuleModel::new()->setKey('bookId')
+                ->setColumn('book_id')
                 ->setRequired()
                 ->setRules(new Rules\AllOf(
-                    new Rules\StringType(),
-                    new Rules\Length(1, 255, true)
-                )),
-            TableRuleModel::new()->setKey('email')
-                ->setColumn('email')
-                ->setRequired()
-                ->setRules(new Rules\AllOf(
-                    new Rules\Email(),
-                    new Rules\Length(1, 255, true)
-                )),
-            TableRuleModel::new()->setKey('passwordHash')
-                ->setColumn('password_hash')
-                ->setRequired()
-                ->setRules(new Rules\AllOf(
-                    new Rules\StringType(),
-                    new Rules\Length(60, 60, true)
+                    new Rules\Number()
                 ))
         ]);
     }
@@ -56,6 +47,6 @@ class UserModel extends AbstractModel
      */
     public function getIndexKey(): string
     {
-        return $this->{'username'};
+        return $this->{'userId'} . '_' . $this->{'bookId'};
     }
 }

@@ -39,12 +39,12 @@ class TableRuleCollection extends AbstractCollection
         /* @var TableRuleModel $rule */
         foreach ($this->models as $rule) {
             if ( ! array_key_exists($rule->{'key'}, $data)) {
-                if ($rule->isRequired) {
+                if ($rule->{'isRequired'}) {
                     return false;
                 }
             }
 
-            if ( ! $rule->rules->validate($data[$rule->{'key'}])) {
+            if ( ! $rule->{'rules'}->validate($data[$rule->{'key'}])) {
                 return false;
             }
         }

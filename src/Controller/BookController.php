@@ -15,7 +15,7 @@ class BookController extends AbstractController
         $params = $request->getQueryParams();
 
         if ( ! empty($params['isbn'])) {
-            $book = $this->container->get('BookModel')->findByISBN($params['isbn']);
+            $book = $this->container->get('BookProvider')->findByISBN($params['isbn']);
 
             if (is_null($book)) {
                 $response->getBody()->write(json_encode('Book Not Found'));
