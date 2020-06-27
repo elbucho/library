@@ -23,6 +23,13 @@ $container = $builder->build();
 // Insert the container into the Auth interface
 $container->get('auth')->loadContainer($container);
 
+// Add auto-loading for Controllers
+$container->set(
+    '*Controller',
+    DI\create('Elbucho\Library\Controller\*Controller')
+        ->constructor($container)
+);
+
 // Bind the container to the application
 AppFactory::setContainer($container);
 $app = AppFactory::create();

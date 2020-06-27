@@ -34,7 +34,7 @@ trait MagicTrait
     public function __get(string $key)
     {
         if (isset($this->data[$key])) {
-            return $key;
+            return $this->data[$key];
         }
 
         return null;

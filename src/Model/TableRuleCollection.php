@@ -6,20 +6,6 @@ use Elbucho\Library\Interfaces\ModelInterface;
 class TableRuleCollection extends AbstractCollection
 {
     /**
-     * Constructor
-     *
-     * @access  public
-     * @param   array   $rules
-     * @return  TableRuleCollection
-     */
-    public function __construct(array $rules = [])
-    {
-        $this->addCollection($rules);
-
-        return $this;
-    }
-
-    /**
      * @inheritDoc
      */
     protected function isValid(ModelInterface $model): bool

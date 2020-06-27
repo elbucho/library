@@ -39,27 +39,25 @@ class AuthDatabase implements AuthInterface
      */
     public function check(): bool
     {
+        $this->loadUser();
+
+        if (is_null($this->user)) {
+            return false;
+        }
+
         $userId = (isset($_SESSION['user']) ? $_SESSION['user'] : null);
 
         if (is_null($userId)) {
             return false;
         }
 
-        if (isset($this->user)) {
-            if ((int) $userId !== (int) $this->user->{'id'}) {
-                $this->logout();
+        if ((int) $userId !== (int) $this->user->{'id'}) {
+            $this->logout();
 
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        /* @var UserProvider $userProvider */
-        $userProvider = $this->container->get('UserProvider');
-        $this->user = $userProvider->findById($userId);
-
-        return ! is_null($this->user);
+        return true;
     }
 
     /**
@@ -71,6 +69,10 @@ class AuthDatabase implements AuthInterface
      */
     public function getUser(): ?UserModel
     {
+        if ( ! isset($this->user)) {
+            $this->loadUser();
+        }
+
         return $this->user;
     }
 
@@ -98,6 +100,8 @@ class AuthDatabase implements AuthInterface
     {
         $this->user = null;
         session_destroy();
+
+        die;
     }
 
     /**
@@ -133,5 +137,29 @@ class AuthDatabase implements AuthInterface
         $userModel = $userProvider->create($username, $email, $password);
 
         return ! is_null($userModel);
+    }
+
+    /**
+     * Load the user into this class
+     *
+     * @access  private
+     * @param   void
+     * @return  void
+     */
+    private function loadUser()
+    {
+        if (isset($this->user)) {
+            return;
+        }
+
+        $userId = (isset($_SESSION['user']) ? $_SESSION['user'] : null);
+
+        if (is_null($userId)) {
+            return;
+        }
+
+        /* @var UserProvider $userProvider */
+        $userProvider = $this->container->get('UserProvider');
+        $this->user = $userProvider->findById($userId);
     }
 }

@@ -50,7 +50,17 @@ abstract class AbstractModel implements ModelInterface
         $rule = $this->rules->findModelByKey($key);
 
         if (is_null($rule)) {
-            return;
+            foreach ($this->rules as $tableRule) {
+                if (strtolower($key) == strtolower($tableRule->{'column'})) {
+                    $rule = $tableRule;
+                    $key = $tableRule->{'key'};
+                    break;
+                }
+            }
+
+            if (is_null($rule)) {
+                return;
+            }
         }
 
         if ($rule->{'rules'}->validate($value)) {

@@ -54,10 +54,10 @@ class DatabaseSessionHandler implements \SessionHandlerInterface
     public function destroy($session_id)
     {
         $this->database->exec('
-            DELETE IGNORE FROM
+            DELETE FROM
                 sessions
             WHERE
-                key = ?
+                `key` = ?
         ', array($session_id));
 
         return true;

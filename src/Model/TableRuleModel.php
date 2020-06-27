@@ -19,7 +19,7 @@ class TableRuleModel implements ModelInterface
     public function __construct()
     {
         $this->setRules(new AllOf());
-        $this->{'isRequired'} = false;
+        $this->data['isRequired'] = false;
 
         return $this;
     }
@@ -46,7 +46,7 @@ class TableRuleModel implements ModelInterface
      */
     public function setKey(string $key): TableRuleModel
     {
-        $this->{'key'} = $key;
+        $this->data['key'] = $key;
 
         return $this;
     }
@@ -60,7 +60,7 @@ class TableRuleModel implements ModelInterface
      */
     public function setColumn(string $column): TableRuleModel
     {
-        $this->{'column'} = $column;
+        $this->data['column'] = $column;
 
         return $this;
     }
@@ -74,7 +74,7 @@ class TableRuleModel implements ModelInterface
      */
     public function setRequired(): TableRuleModel
     {
-        $this->{'isRequired'} = true;
+        $this->data['isRequired'] = true;
 
         return $this;
     }
@@ -88,7 +88,7 @@ class TableRuleModel implements ModelInterface
      */
     public function setRules(AllOf $rules): TableRuleModel
     {
-        $this->{'rules'} = $rules;
+        $this->data['rules'] = $rules;
 
         return $this;
     }
@@ -130,7 +130,7 @@ class TableRuleModel implements ModelInterface
      */
     public function getIndexKey(): string
     {
-        return $this->{'key'};
+        return $this->data['key'];
     }
 
     /**

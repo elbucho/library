@@ -24,7 +24,7 @@ class UserModel extends AbstractModel
                     new Rules\Number()
                 )),
             TableRuleModel::new()->setKey('username')
-                ->setColumn('name')
+                ->setColumn('username')
                 ->setRequired()
                 ->setRules(new Rules\AllOf(
                     new Rules\StringType(),

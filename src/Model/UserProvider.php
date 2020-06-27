@@ -109,17 +109,22 @@ class UserProvider extends AbstractProvider
             ));
         }
 
+        $salt = $this->config->get('salt', null);
+
         $args = [
-            'salt'  => $this->config->get('salt', null),
             'cost'  => $this->config->get('cost', 13)
         ];
+
+        if ( ! is_null($salt)) {
+            $args['salt'] = $salt;
+        }
 
         $hash = password_hash($password, PASSWORD_BCRYPT, $args);
 
         $user = new UserModel([
-            'username'  => $username,
-            'email'     => $email,
-            'password'  => $hash
+            'username'      => $username,
+            'email'         => $email,
+            'passwordHash'  => $hash
         ]);
 
         $this->save($user);
@@ -138,14 +143,14 @@ class UserProvider extends AbstractProvider
     {
         $results = $this->database->query('
             SELECT
-                COUNT(*)
+                COUNT(*) AS count
             FROM
                 users
             WHERE
                 username = ?
         ', array($username));
 
-        return ! empty($results[0]);
+        return ! empty($results[0]['count']);
     }
 
     /**
@@ -159,14 +164,14 @@ class UserProvider extends AbstractProvider
     {
         $results = $this->database->query('
             SELECT
-                COUNT(*)
+                COUNT(*) AS count
             FROM
                 users
             WHERE
                 email = ?
         ', array($email));
 
-        return ! empty($results[0]);
+        return ! empty($results[0]['count']);
     }
 
     /**

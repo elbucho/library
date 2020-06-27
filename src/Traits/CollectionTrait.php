@@ -18,14 +18,14 @@ trait CollectionTrait
      * @access  protected
      * @var     int
      */
-    protected $pointer = 0;
+    protected $pointer;
 
     /**
      * @inheritDoc
      */
     public function current()
     {
-        return $this->models[$this->pointer];
+        return $this->models[$this->key()];
     }
 
     /**
@@ -41,7 +41,9 @@ trait CollectionTrait
      */
     public function key()
     {
-        return $this->pointer;
+        $keys = array_keys($this->models);
+
+        return $keys[$this->pointer];
     }
 
     /**
@@ -49,7 +51,11 @@ trait CollectionTrait
      */
     public function valid()
     {
-        return isset($this->models[$this->pointer]);
+        if ($this->pointer >= count($this->models)) {
+            return false;
+        }
+
+        return isset($this->models[$this->key()]);
     }
 
     /**
@@ -61,10 +67,14 @@ trait CollectionTrait
     }
 
     /**
-     * Add a model to the collection
+     * Return a count of members in this collection
      *
      * @access  public
-     * @param   ModelInterface
-     * @return  CollectionInterface
+     * @param   void
+     * @return  int
      */
+    public function count(): int
+    {
+        return count($this->models);
+    }
 }

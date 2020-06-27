@@ -10,6 +10,26 @@ abstract class AbstractCollection implements CollectionInterface
     use CollectionTrait;
 
     /**
+     * Class constructor
+     *
+     * @access  public
+     * @param   array   $models
+     * @return  CollectionInterface
+     */
+    public function __construct(array $models = [])
+    {
+        $this->pointer = 0;
+
+        foreach ($models as $model) {
+            if ($model instanceof ModelInterface) {
+                $this->addModel($model);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function addModel(ModelInterface $model): CollectionInterface
@@ -66,7 +86,7 @@ abstract class AbstractCollection implements CollectionInterface
 
         /* @var ModelInterface $model */
         foreach ($this->models as $model) {
-            $return[] = $model->toArray();
+            $return[$model->getIndexKey()] = $model->toArray();
         }
 
         return $return;

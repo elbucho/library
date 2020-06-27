@@ -41,6 +41,15 @@ interface CollectionInterface extends \Iterator
     public function keyExists(string $key): bool;
 
     /**
+     * Return a count of members in this collection
+     *
+     * @access  public
+     * @param   void
+     * @return  int
+     */
+    public function count(): int;
+
+    /**
      * Return an array of all members of collection
      *
      * @access  public

@@ -166,6 +166,11 @@ abstract class AbstractProvider implements ProviderInterface
             $values[] = $rule->serialize($value);
         }
 
+        // Add the created_at timestamp
+        $now = new \DateTimeImmutable('now');
+        $columns[] = 'created_at';
+        $values[] = $now->format('Y-m-d H:i:s');
+
         $valueString = implode(
             ', ',
             array_fill(0, count($columns), '?')
