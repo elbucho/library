@@ -1,0 +1,133 @@
+openapi: 3.0.0
+info:
+  title: MyLibrary
+  version: '1.0'
+  description: Tool to catalog your book collection and share with your friends
+  license:
+    name: MIT
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/books/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: Book ID
+    get:
+      summary: getBooks
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-1: {}
+      operationId: get-books-id
+      description: Return a list of books in your collection
+      parameters:
+        - schema:
+            type: array
+          in: query
+          name: genres
+          description: Filter by an array of genres
+        - schema:
+            type: array
+          in: query
+          name: authors
+          description: Filter by an array of authors
+        - schema:
+            type: string
+          in: query
+          name: isbn
+          description: Find book by ISBN
+        - schema:
+            type: string
+          in: query
+          name: title
+          description: Find book by title
+    post:
+      summary: addBook
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: post-books-id
+      description: Add a new book to the collection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                isbn:
+                  type: string
+                authors:
+                  type: array
+                  items: {}
+                genres:
+                  type: array
+                  items: {}
+                published_year:
+                  type: number
+                pages:
+                  type: number
+                publisher:
+                  type: string
+              required:
+                - title
+                - authors
+                - publisher
+        description: Create a new book in the collection with the provided data
+    put:
+      summary: updateBook
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: put-books-id
+      description: Update the given book with provided data
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                isbn:
+                  type: string
+                authors:
+                  type: array
+                  items: {}
+                genres:
+                  type: array
+                  items: {}
+                pages:
+                  type: number
+                published_year:
+                  type: number
+                publisher:
+                  type: string
+            examples:
+              example-1: {}
+        description: Optional params to update
+    delete:
+      summary: deleteBook
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: delete-books-id
+      description: Remove the given book from the collection
+components:
+  schemas: {}
+  securitySchemes: {}
